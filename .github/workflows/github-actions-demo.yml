@@ -1,4 +1,4 @@
-name: Code Check
+name: CI
 
 on:
   pull_request:
@@ -6,23 +6,63 @@ on:
       - dev
 
 jobs:
-  check-code:
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
+          
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build Application
+        run: npm run build
+       
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint Code
+    needs: [build]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Setup Node.js
+            
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14 # Replace this with your desired Node.js version
-
-      - name: Install dependencies
+          node-version: 16
+            
+      - name: Install Dependencies
         run: npm install
-
-      - name: Run ESLint
+              
+      - name: Run Linter
         run: npm run lint
-
-      - name: Run Jest tests
+              
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: [lint]
+          
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+            
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+            
+      - name: Install Dependencies
+        run: npm install
+              
+      - name: Run Tests
         run: npm test
+# SEQUENCE
+# BUILD (build) -> LINT (lint-commit, lint-circular, lint-lockfile) -> SECURITY (container-scanner) -> TEST (test-stage, test-unit, test-integration)-> RELEASE -> DEPLOY (deploy-mr, deploy-stage, deploy-prod)
