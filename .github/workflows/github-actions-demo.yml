@@ -49,10 +49,15 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     needs: [lint]
+    strategy: 
+      matrix:
+        version: [14,16,18]
           
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with: 
+          node-verison: ${{ matrix.version }}
             
       - name: Set up Node.js
         uses: actions/setup-node@v2
