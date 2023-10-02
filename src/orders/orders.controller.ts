@@ -22,8 +22,8 @@ export class OrdersController {
   @SkipAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    const order = this.ordersService.findOne(id)
-    return order
+    const order = this.ordersService.findOne(id);
+    return order;
   }
 
   @SkipAuth()
@@ -32,7 +32,7 @@ export class OrdersController {
     // @Body(TransformPipe, ValidationPipe) createCartDto: CreateOrderDto,
     @Body() createOrdertDto: CreateOrderDto,
   ) {
-    const order = this.ordersService.create(createOrdertDto)
+    const order = this.ordersService.create(createOrdertDto);
     // console.log('created order: ', order)
     return order;
   }
@@ -40,7 +40,7 @@ export class OrdersController {
   @SkipAuth()
   @Put(':id')
   update(@Param('id') id: string, @Body() updateCartDto: UpdateOrderDto) {
-    console.log('\n update order: ', updateCartDto)
+    console.log('\n update order: ', updateCartDto);
     return this.ordersService.update(id, updateCartDto);
   }
 
@@ -48,7 +48,7 @@ export class OrdersController {
   @Get()
   findAll() {
     const orders = this.ordersService.findAll();
-    return orders
+    return orders;
   }
 
   @Delete(':id')
