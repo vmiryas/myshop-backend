@@ -5,9 +5,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { ApiKeyAuthGuard } from './guards/api-key-auth.guard';
 import { OrdersModule } from './orders/orders.module';
 import { HealthModule } from './health/health.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [CartsModule, OrdersModule, ConfigModule, HealthModule],
+  imports: [CartsModule, OrdersModule, ProductsModule, ConfigModule, HealthModule],
   controllers: [],
   providers: [
     {
